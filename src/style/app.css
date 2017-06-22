@@ -1,0 +1,47 @@
+body {
+  background: #FFF;
+}
+
+.header img {
+  float: left;
+  width: 120px;
+  padding-top: 8px;
+}
+
+.header .title {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+
+.text-label{
+  font-weight: 700;
+}
+.text-comment{
+  color: #9f9f9f;
+  font-size: 12px;
+}
+.input-date{
+  height: 40px;
+}
+
+.separator-line{
+    border-top: 2px solid;
+    margin-bottom: 5px;
+}
+
+.invoice-title h2, .invoice-title h3 {
+    display: inline-block;
+}
+
+.table > tbody > tr > .no-line {
+    border-top: none;
+}
+
+.table > thead > tr > .no-line {
+    border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+    border-top: 2px solid;
+}

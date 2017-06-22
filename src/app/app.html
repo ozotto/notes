@@ -1,0 +1,272 @@
+<div class="container" ng-controller="AppCtrl">
+
+  <!-- Header with logo -->
+  <div class="header">
+    <img src="img/logo.png" alt="logo" />
+    <h2 class="title">Note de Frais</h2>
+  </div>
+  <hr/>
+
+  <!-- Date note and bill number-->
+  <div class="row">
+    <div class="col-md-6 col-md-offset-6">
+
+      <div class="row">
+        <div class="col-md-4">
+            <div class="text-label">Date de la note</div>
+            <div class="text-comment">(à remplir)</div>
+        </div>
+        <div class="col-md-8 input-date">
+            <md-datepicker ng-model="invoice.reportDate"></md-datepicker>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="text-label">Facture fournisseur</div>
+          <div class="text-comment">(Réservé compta)</div>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" ng-model="invoice.manager.singleName">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <br/>
+
+  <!-- Employe / Autorisation -->
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="text-label">Employé(e)</div>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label for="name">Nom, Prénom</label>
+            <input type="text" class="form-control" ng-model="invoice.employee.surname">
+          </div>
+          <div class="form-group">
+            <label for="name">Départament</label>
+            <input type="text" class="form-control" ng-model="invoice.employee.prefix">
+          </div>
+          <div class="form-group">
+            <label for="name">Signature</label>
+            <p>(Ne pas remplir)</p>
+            <input type="text" class="form-control" ng-model="invoice.employee.suffix">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="text-label">Autorisation</div>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label for="name">Nom, Prénom</label>
+            <input type="text" class="form-control" ng-model="invoice.author.surname">
+          </div>
+          <div class="form-group">
+            <label for="name">Dossier d'investissement</label>
+            <input type="text" class="form-control" ng-model="invoice.author.prefix">
+          </div>
+          <div class="form-group">
+            <label for="name">Signature</label>
+            <p>(Ne pas remplir)</p>
+            <input type="text" class="form-control" ng-model="invoice.author.suffixl">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ccy -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <div class="form-group">
+            <label for="name">Devise Formulaire</label>
+            <md-input-container>
+              <md-select ng-model="invoice.ccy">
+                <md-option ng-repeat="currency in availableCurrencies" ng-value="currency.CurrencyDisplayName">
+                  {{currency.CurrencyDisplayName}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div class="form-group">
+            <div class="text-label">Exposition</div>
+            <div class="text-comment">(si aucune PALEXPO)</div>
+            <input type="text" class="form-control" ng-model="invoice.exposure">
+          </div>
+
+          <div class="form-group">
+            <label for="name">Description note de frais</label>
+            <input type="text" class="form-control" ng-model="invoice.description">
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bill -->
+  <div class="items-table">
+    <div class="row header">
+      <div class="col-xs-1">&nbsp;</div>
+      <div class="col-xs-2">Date </div>
+      <div class="col-xs-5">Description </div>
+      <div class="col-xs-2">Montant</div>
+      <div class="col-xs-2 text-right">Total</div>
+    </div>
+    <div class="row invoice-item" ng-repeat="item in invoice.items"l>
+      <div class="col-xs-1 remove-item-container">
+        <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
+      </div>
+      <div class="col-xs-2 input-container">
+        <md-datepicker ng-model="item.date"></md-datepicker>
+      </div>
+      <div class="col-xs-5 input-container">
+        <input ng-model="item.description" placeholder="Description" />
+      </div>
+      <div class="col-xs-2 input-container">
+        <input ng-model="item.cost" ng-required ng-validate="number" size="6" placeholder="0" />
+      </div>
+      <div class="col-xs-2 text-right input-container">
+        {{item.cost | currency: currencySymbol}}
+      </div>
+    </div>
+    <div class="row invoice-item">
+      <div class="col-xs-12 add-item-container" ng-hide="printMode">
+        <a class="btn btn-primary" href ng-click="addItem()" >[+]</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-10 text-right">Total note de frais</div>
+      <div class="col-xs-2 text-right">{{invoiceTotalNotes() | currency: currencySymbol}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-10 text-right">Montant avancé dans la devise du formulaire</div>
+      <div class="col-xs-2 text-right"><input ng-model="invoice.advanced" ng-validate="number" size="6" placeholder="$0" /></div>        
+    </div>
+    <div class="row">
+      <div class="col-xs-10 text-right">Total caisse</div>
+      <div class="col-xs-2 text-right">{{invoiceTotal() | currency: currencySymbol}}</div>
+    </div>
+  </div>
+
+  <!-- paiment -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="text-label">Paiment par banque</div>
+          <div class="text-comment">(veillez cocher si oui)</div>
+          <div class="checkbox" style="display:inline">
+         <label>
+             <input type="checkbox" style="float:inherit;"/>
+         </label>
+      </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div>Titulaire du compte</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.accountOwner" >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div>Nom banque ou no clearing</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.nameBank" >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div>No de compte ou IBAN</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.numberIBAN">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ventilation -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="text-label">Ventilation Comptable</div>
+        </div>
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-4">
+              <div>No compte comptable</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.numberFinance">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div>Service (Analytique + Cpri)</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.serviceAnalytic">
+                <input type="text" class="form-control" ng-model="invoice.serviceCPRI">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div>Remis par caisse par (Date + Initiales)</div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-inline">
+                <input type="text" class="form-control" ng-model="invoice.deliveredDate">
+                <input type="text" class="form-control" ng-model="invoice.deliveredInitial">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- actions -->
+  <div class="row noPrint actions">
+    <a href="#" class="btn btn-primary" ng-show="printMode" ng-click="printInfo()">Print</a>
+    <a href="#" class="btn btn-primary" ng-click="clearLocalStorage()">Reset</a>
+    <a href="#" class="btn btn-primary" ng-hide="printMode" ng-click="printMode = true;">Turn On Print Mode</a>
+    <a href="#" class="btn btn-primary" ng-show="printMode" ng-click="printMode = false;">Turn Off Print Mode</a>
+  </div>
+
+</div>
