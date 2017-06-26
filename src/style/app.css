@@ -1,5 +1,5 @@
-body {
-  background: #FFF;
+body{
+  padding:20px;
 }
 
 .header img {
@@ -14,6 +14,10 @@ body {
   left: 10px;
 }
 
+.input-date {
+  height: 40px
+}
+
 .text-label{
   font-weight: 700;
 }
@@ -21,27 +25,56 @@ body {
   color: #9f9f9f;
   font-size: 12px;
 }
-.input-date{
-  height: 40px;
+
+
+.items-table .row {
+  padding-top: 5px;
+  border-bottom:1px solid #ddd;
+  line-height:3em;
 }
 
-.separator-line{
-    border-top: 2px solid;
-    margin-bottom: 5px;
+.items-table .row:last-child {
+  border-bottom:none;
+  line-height:3em;
 }
 
-.invoice-title h2, .invoice-title h3 {
-    display: inline-block;
+.items-table .row:nth-child(even) {
+  background:#f9f9f9;
+}
+.items-table input {
+  line-height:1.5em;
 }
 
-.table > tbody > tr > .no-line {
-    border-top: none;
+.items-table .md-datepicker-input-container{
+  border-bottom-style: none;
 }
 
-.table > thead > tr > .no-line {
-    border-bottom: none;
+/*.form-date{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff
+}
+*/
+.form-date .md-datepicker-triangle-button {
+    min-height: 5px !important;
+    bottom: 5.5px;
 }
 
-.table > tbody > tr > .thick-line {
-    border-top: 2px solid;
+/*.form-date .md-datepicker-input{
+  background: #fff
+}*/
+
+.header.row {
+  font-weight:bold;
+  border-top:1px solid #ddd;
+}
+
+input, textarea{
+  border: 1px solid #FFF;
+}
+
+@media print {
+    .noPrint {
+        display:none;
+    }
 }

@@ -10,7 +10,7 @@ import 'angular-material'
 import 'angular-material/angular-material.css';
 
 import '../style/app.css';
-import '../style/invoice.css';
+/*import '../style/invoice.css';*/
 
 let app = () => {
   return {
@@ -20,8 +20,6 @@ let app = () => {
   }
 };
 
-/*l*/
-
 const MODULE_NAME = 'app';
 
 angular.module(MODULE_NAME, ['ngAnimate', 'ngAria', 'ngMaterial'])
@@ -30,7 +28,6 @@ angular.module(MODULE_NAME, ['ngAnimate', 'ngAria', 'ngMaterial'])
 
 .constant('DEFAULT_INVOICE', {
   reportDate : new Date(),
-  advanced: 0,
   employee: {
     surname: '',
     prefix: '',
@@ -45,7 +42,7 @@ angular.module(MODULE_NAME, ['ngAnimate', 'ngAria', 'ngMaterial'])
     singleName: ''
   },
   items:[
-    { description: '', cost: 0 }
+    { description: '' }
   ]
 })
 
@@ -289,11 +286,11 @@ angular.module(MODULE_NAME, ['ngAnimate', 'ngAria', 'ngMaterial'])
       }();
 
       $scope.availableCurrencies = Currency.all();
-
     })()
+    
 
     $scope.addItem = function() {
-      $scope.invoice.items.push({ qty:0, cost:0, description:"" });
+      $scope.invoice.items.push({ description:"" });
     }
     
     $scope.removeItem = function(item) {

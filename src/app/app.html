@@ -121,28 +121,33 @@
 
   <!-- bill -->
   <div class="items-table">
-    <div class="row header">
-      <div class="col-xs-1">&nbsp;</div>
-      <div class="col-xs-2">Date </div>
+    <div class="row header text-center">
+      <!-- <div class="col-xs-1">&nbsp;</div> -->
+      <div class="col-xs-3">Date </div>
       <div class="col-xs-5">Description </div>
       <div class="col-xs-2">Montant</div>
       <div class="col-xs-2 text-right">Total</div>
     </div>
     <div class="row invoice-item" ng-repeat="item in invoice.items"l>
-      <div class="col-xs-1 remove-item-container">
+      <!-- <div class="col-xs-1 remove-item-container">
         <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
-      </div>
-      <div class="col-xs-2 input-container">
-        <md-datepicker ng-model="item.date"></md-datepicker>
+      </div> -->
+      <div class="col-xs-3 input-container">
+        <div class="input-date">
+          <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
+          <md-datepicker ng-model="item.date" class="form-date"></md-datepicker>
+        </div>
       </div>
       <div class="col-xs-5 input-container">
-        <input ng-model="item.description" placeholder="Description" />
+        <input ng-model="item.description" class="form-control" placeholder="Description" />
       </div>
       <div class="col-xs-2 input-container">
-        <input ng-model="item.cost" ng-required ng-validate="number" size="6" placeholder="0" />
+        <input ng-model="item.cost" class="form-control" format="number" ng-required ng-validate="number" size="6" placeholder="0" />
       </div>
-      <div class="col-xs-2 text-right input-container">
-        {{item.cost | currency: currencySymbol}}
+      <div class="col-xs-2 input-container">
+        <input ng-model="item.cost" class="form-control text-right" ng-required ng-validate="number" size="6" placeholder="0" disabled />
+        here
+<!--         {{item.cost | currency: currencySymbol}} -->
       </div>
     </div>
     <div class="row invoice-item">
@@ -151,16 +156,24 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-10 text-right">Total note de frais</div>
-      <div class="col-xs-2 text-right">{{invoiceTotalNotes() | currency: currencySymbol}}</div>
+      <div class="col-xs-10 text-right text-label">Total note de frais</div>
+      <div class="col-xs-2">
+        <!-- <input ng-model="invoiceTotalNotes() | currency: currencySymbol" class="form-control text-right" ng-required ng-validate="number" size="6" placeholder="0" disabled /> -->
+        {{ invoiceTotalNotes() | currency: currencySymbol }}
+      </div>
     </div>
     <div class="row">
-      <div class="col-xs-10 text-right">Montant avancé dans la devise du formulaire</div>
-      <div class="col-xs-2 text-right"><input ng-model="invoice.advanced" ng-validate="number" size="6" placeholder="$0" /></div>        
+      <div class="col-xs-10 text-right text-label">Montant avancé dans la devise du formulaire</div>
+      <div class="col-xs-2">
+        <input ng-model="invoice.advanced" class="form-control text-right" ng-validate="number" size="6" placeholder="0" />
+      </div>        
     </div>
     <div class="row">
-      <div class="col-xs-10 text-right">Total caisse</div>
-      <div class="col-xs-2 text-right">{{invoiceTotal() | currency: currencySymbol}}</div>
+      <div class="col-xs-10 text-right text-label">Total caisse</div>
+      <div class="col-xs-2">
+      {{invoiceTotal() | currency: currencySymbol}}
+      <!-- <input ng-model="invoiceTotal() | currency: currencySymbol" class="form-control text-right" ng-required ng-validate="number" size="6" placeholder="0" disabled /> -->
+      </div>
     </div>
   </div>
 
