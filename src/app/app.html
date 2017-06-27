@@ -134,7 +134,7 @@
       </div> -->
       <div class="col-xs-3 input-container">
         <div class="input-date">
-          <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger">[X]</a>
+          <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger noPrint">[X]</a>
           <md-datepicker ng-model="item.date" class="form-date"></md-datepicker>
         </div>
       </div>
@@ -146,12 +146,12 @@
       </div>
       <div class="col-xs-2 input-container">
         <input ng-model="item.cost" class="form-control text-right" ng-required ng-validate="number" size="6" placeholder="0" disabled />
-        here
+        <!-- here -->
 <!--         {{item.cost | currency: currencySymbol}} -->
       </div>
     </div>
     <div class="row invoice-item">
-      <div class="col-xs-12 add-item-container" ng-hide="printMode">
+      <div class="col-xs-12 add-item-container noPrint" ng-hide="printMode">
         <a class="btn btn-primary" href ng-click="addItem()" >[+]</a>
       </div>
     </div>
@@ -181,14 +181,16 @@
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="text-label">Paiment par banque</div>
-          <div class="text-comment">(veillez cocher si oui)</div>
-          <div class="checkbox" style="display:inline">
-         <label>
-             <input type="checkbox" style="float:inherit;"/>
-         </label>
-      </div>
+        <div class="panel-heading" style="display:flex">
+          <div>
+            <div class="text-label">Paiment par banque</div>
+            <div class="text-comment">(veillez cocher si oui)</div>  
+          </div>
+          <div style="padding-left: 15px">          
+            <label>
+              <input type="checkbox" ng-model="payment"></label>
+            </label>
+          </div>
         </div>
         <div class="panel-body">
           <div class="row">
@@ -197,7 +199,7 @@
             </div>
             <div class="col-md-8">
               <div class="form-inline">
-                <input type="text" class="form-control" ng-model="invoice.accountOwner" >
+                <input type="text" class="form-control" ng-model="invoice.accountOwner" ng-disabled="!payment" >
               </div>
             </div>
           </div>
@@ -207,7 +209,7 @@
             </div>
             <div class="col-md-8">
               <div class="form-inline">
-                <input type="text" class="form-control" ng-model="invoice.nameBank" >
+                <input type="text" class="form-control" ng-model="invoice.nameBank" ng-disabled="!payment">
               </div>
             </div>
           </div>
@@ -217,7 +219,7 @@
             </div>
             <div class="col-md-8">
               <div class="form-inline">
-                <input type="text" class="form-control" ng-model="invoice.numberIBAN">
+                <input type="text" class="form-control" ng-model="invoice.numberIBAN" ng-disabled="!payment">
               </div>
             </div>
           </div>
@@ -271,7 +273,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- actions -->

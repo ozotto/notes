@@ -10,7 +10,7 @@ import 'angular-material'
 import 'angular-material/angular-material.css';
 
 import '../style/app.css';
-/*import '../style/invoice.css';*/
+import '../style/print.css';
 
 let app = () => {
   return {
@@ -277,6 +277,7 @@ angular.module(MODULE_NAME, ['ngAnimate', 'ngAria', 'ngMaterial'])
     
     $scope.currencySymbol = '$';
     $scope.printMode   = false;
+    $scope.payment = false;
 
     (function init() {
       // Attempt to load invoice from local storage

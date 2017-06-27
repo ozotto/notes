@@ -49,20 +49,10 @@ body{
   border-bottom-style: none;
 }
 
-/*.form-date{
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: #fff
-}
-*/
 .form-date .md-datepicker-triangle-button {
     min-height: 5px !important;
     bottom: 5.5px;
 }
-
-/*.form-date .md-datepicker-input{
-  background: #fff
-}*/
 
 .header.row {
   font-weight:bold;
